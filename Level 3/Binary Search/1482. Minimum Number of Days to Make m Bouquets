@@ -1,0 +1,27 @@
+class Solution:
+    def minDays(self, bloomDay: List[int], m: int, k: int) -> int:
+        n = len(bloomDay)
+        if m * k > n:
+            return -1
+        
+        def solve(mid):
+            flower = 0
+            bokay = 0
+            for i in bloomDay:
+                if i <= mid:
+                    flower += 1
+                else:
+                    flower = 0
+                if flower == k:
+                    flower = 0
+                    bokay += 1
+            return bokay >= m
+        left = 1
+        right = max(bloomDay)
+        while left <= right:
+            mid = (left + right) // 2
+            if not solve(mid):
+                left = mid + 1
+            else:
+                right = mid - 1
+        return left

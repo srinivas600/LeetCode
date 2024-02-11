@@ -1,0 +1,17 @@
+class Solution:
+    def smallestDivisor(self, nums: List[int], threshold: int) -> int:
+        def solve(divisor):
+            opt = 0
+            for i in nums:
+                opt += i / divisor if i / divisor == float(i // divisor) else (i//divisor) + 1
+            return opt <= threshold
+        
+        left = 1
+        right = sum(nums)
+        while left <= right:
+            mid = (left + right) // 2
+            if not solve(mid):
+                left = mid + 1
+            else:
+                right = mid - 1
+        return left

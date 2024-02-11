@@ -1,0 +1,20 @@
+class Solution:
+    def findBestValue(self, arr: List[int], target: int) -> int:
+        arr.sort()
+        left = 0
+        right = arr[-1]
+        def solve(mid):
+            ans = 0
+            for i in arr:
+                if i < mid:
+                    ans += i
+                else:
+                    ans += mid
+            return ans
+        while left <= right:
+            mid = (left + right) // 2
+            if solve(mid) <= target:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return left if abs(solve(left) - target) < abs(solve(left-1) - target) else left -1

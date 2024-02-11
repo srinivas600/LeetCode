@@ -1,0 +1,24 @@
+class Solution:
+    def maxDistance(self, position: List[int], m: int) -> int:
+        position.sort()
+        def solve(diff):
+            prev = position[0]
+            mag = 1
+            for i in range(1, len(position)):
+                if position[i] - prev >= diff:
+                    prev = position[i]
+                    mag += 1
+                if mag >= m:
+                    return True
+            return mag >= m
+
+
+        left = 0
+        right = 10 ** 9
+        while left <= right:
+            mid = (left + right) // 2
+            if not solve(mid):
+                right = mid - 1
+            else:
+                left = mid + 1
+        return leff if solve(left) else right

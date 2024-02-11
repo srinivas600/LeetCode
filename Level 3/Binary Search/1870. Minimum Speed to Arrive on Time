@@ -1,20 +1,34 @@
 class Solution:
-    def findBestValue(self, arr: List[int], target: int) -> int:
-        arr.sort()
-        left = 0
-        right = arr[-1]
+    def minSpeedOnTime(self, dist: List[int], hour: float) -> int:
+        if len(dist) -1 >= hour:
+            return -1
+        
         def solve(mid):
             ans = 0
-            for i in arr:
-                if i < mid:
-                    ans += i
+            for i in range(len(dist)):
+                num = float(dist[i] / mid)
+                num2 = float(int(dist[i] / mid))
+                if num == num2:
+                    ans += num
+                elif num < num2:
+                    ans += num2
                 else:
-                    ans += mid
-            return ans
-        while left <= right:
+                    if i < len(dist)-1:
+                        ans += num2 +1
+                    else:
+                        ans += num
+                if ans > hour:
+                    return False
+            return True if ans <= hour else False
+        
+        print(solve(10))
+        #return 0
+        left = 1
+        right = 10 ** 7
+        while left < right:
             mid = (left + right) // 2
-            if solve(mid) <= target:
-                left = mid + 1
+            if solve(mid):
+                right = mid -1
             else:
-                right = mid - 1
-        return left if abs(solve(left) - target) < abs(solve(left-1) - target) else left -1
+                left = mid +1
+        return left if solve(left) else left+1

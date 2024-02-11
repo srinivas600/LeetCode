@@ -1,0 +1,16 @@
+class Solution:
+    def minimumSize(self, nums: List[int], maxOperations: int) -> int:
+        def solve(num):
+            ans = 0
+            for i in nums:
+                ans += ((i-1) // num)
+            return ans > maxOperations
+        
+        left, right = 1, max(nums)
+        while left < right:
+            mid = (left + right) // 2
+            if solve(mid):
+                left = mid + 1
+            else:
+                right = mid
+        return left

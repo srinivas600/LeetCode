@@ -1,0 +1,25 @@
+class Solution:
+    def findRightInterval(self, intervals: List[List[int]]) -> List[int]:
+        opt = sorted(intervals, key = lambda x : [x[0], -x[1]])
+        idx = {j[0] : i for i, j in enumerate(intervals)}
+        sort_idx = {j[0] : i for i, j in enumerate(opt)}
+        n = len(intervals)
+        def solve(interval):
+            left = sort_idx[interval[0]]
+            right = n
+            while left < right:
+                mid = (left + right) // 2
+                if opt[mid][0] >= interval[1]:
+                    right = mid 
+                else:
+                    left = mid + 1
+            if right == n:
+                return 10 ** 9
+            return opt[right][0]
+
+
+        ans = [0] * n
+        for i in range(n):
+            fun = solve(intervals[i])
+            ans[i] = idx[fun] if fun != 10 ** 9 else -1
+        return ans

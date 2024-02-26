@@ -1,0 +1,20 @@
+class Solution:
+    def hIndex(self, citations: List[int]) -> int:
+        n = len(citations)
+        def solve(ele):
+            cnt = 0
+            for i in range(len(citations)):
+                if citations[i] >= ele:
+                    cnt = n - i
+                    break
+            return cnt >= ele
+        
+
+        left, right = 0, n
+        while left <= right:
+            mid = (left + right) // 2
+            if solve(mid):
+                left = mid + 1
+            else:
+                right = mid - 1
+        return left if solve(left) else right

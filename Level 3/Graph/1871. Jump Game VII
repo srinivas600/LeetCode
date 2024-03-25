@@ -1,0 +1,18 @@
+class Solution:
+    def canReach(self, s: str, minJump: int, maxJump: int) -> bool:
+
+        n = len(s)
+        @lru_cache(None)
+        def solve(i):
+            if i == n-1:
+                return True
+            ans = False
+            cnt = 10
+            for x in range(min(maxJump+i, n-1), minJump+i-1, -1):
+                if s[x] == "0": 
+                    ans |= solve(x)
+                    if cnt < 0:
+                        break
+                    cnt -= 1
+            return ans
+        return solve(0)

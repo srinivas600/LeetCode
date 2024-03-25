@@ -1,0 +1,60 @@
+class Node:
+    def __init__(self, val=0):
+        self.val = val
+        self.next = None
+
+
+class Queue:
+    def __init__(self):
+        self.head = self.tail = None
+        self.len = 0
+
+    def insert(self, val):
+        new_node = Node(val)
+        self.len += 1
+        if not self.head or not self.tail:
+            self.head = self.tail = new_node
+        else:
+            node = self.tail
+            node.next = new_node
+            node = node.next
+            self.tail = node
+
+    def delete(self):
+        n = self.head
+        self.head = self.head.next
+        self.len -= 1
+        return n.val
+
+    def display(self):
+        node = self.head
+        while node:
+            print(node.val)
+            node = node.next
+
+class Solution:
+    def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
+        que = Queue()
+        visited = set()
+        n,m = len(mat), len(mat[0])
+        for i in range(n):
+            for j in range(m):
+                if mat[i][j] == 0:
+                    que.insert((i, j))
+                    visited.add((i, j))
+        dire = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        while que.head:
+            #que.display()
+            #print("--------------")
+            for _ in range(que.len):
+                r, c = que.delete()
+                #visited.add((r, c))
+                for x, y in dire:
+                    i, j = x + r, y + c
+                    if 0 <= i < n and 0 <= j < m and (i, j) not in visited:
+                        mat[i][j] = mat[r][c] +1
+                        que.insert((i, j))
+                        visited.add((i, j))
+            c += 1
+        return mat
+                            

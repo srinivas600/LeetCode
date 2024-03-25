@@ -1,2 +1,2 @@
 # LeetCode
-for Tracing daily leetcode solutions
+For Mastering DSA

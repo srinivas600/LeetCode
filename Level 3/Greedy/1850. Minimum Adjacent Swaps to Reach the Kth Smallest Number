@@ -1,0 +1,51 @@
+class Solution:
+    def getMinSwaps(self, num: str, k: int) -> int:
+        ans = 0
+        def nextpem(nums):
+            nonlocal ans
+            index = -1
+            for i in range(len(nums)-2, -1, -1):
+                if nums[i] < nums[i+1]:
+                    index = i
+                    break
+            if index == -1:
+                return 
+                a = len(nums) -1
+                index = 0
+                while index < a:
+                    nums[index], nums[a] = nums[a], nums[index]
+                    index += 1
+                    a -= 1
+                return nums
+            for i in range(len(nums)-1, index-1, -1):
+                if nums[i] > nums[index]:
+                    nums[i], nums[index] = nums[index], nums[i]
+                    break
+            #print(nums)
+            a = len(nums) -1
+            index += 1
+            while index < a:
+                nums[index], nums[a] = nums[a], nums[index]
+                index += 1
+                a -= 1
+            return nums
+        
+
+        def factorial(n):
+            if n<=1:
+                return 1
+            return n * factorial(n-1)
+        
+        fac = factorial(len(num))
+        k %= fac
+        num = list(num)
+        inpnum = list(num[::])
+        while k > 0:
+            num = nextpem(num)
+            k -= 1
+        for i in range(len(num)):
+            for j in range(i, len(num)):
+                if inpnum[j] == num[i]: break
+            ans += j -i 
+            inpnum[i:j+1] = [inpnum[j]] + inpnum[i:j]
+        return ans

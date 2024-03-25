@@ -1,0 +1,20 @@
+class Solution:
+    def minReorder(self, n: int, connections: List[List[int]]) -> int:
+        graph = defaultdict(list)
+        visited = set()
+        for s, e in connections:
+            graph[s].append((e, True))
+            graph[e].append((s, False))
+        def dfs(road):
+            count = 0
+            if road in visited:
+                return
+            visited.add(road)
+            for i, j in graph[road]:
+                if i not in visited:
+                    if j == True:
+                        count += 1
+                    count += dfs(i)
+            return count
+			
+        return dfs(0)

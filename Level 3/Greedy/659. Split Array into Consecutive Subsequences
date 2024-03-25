@@ -1,0 +1,18 @@
+class Solution:
+    def isPossible(self, nums: List[int]) -> bool:
+        remaining = Counter(nums)
+        new = Counter()
+        for i in nums:
+            if remaining[i] <= 0:
+                continue
+            remaining[i] -= 1
+            if new[i-1] > 0:
+                new[i-1] -= 1
+                new[i] += 1
+            elif remaining[i+1] and remaining[i+2]:
+                remaining[i+1] -= 1
+                remaining[i+2] -= 1
+                new[i+2] += 1
+            else:
+                return False
+        return True

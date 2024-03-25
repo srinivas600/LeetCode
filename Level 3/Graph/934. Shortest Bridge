@@ -1,0 +1,33 @@
+class Solution:
+    def shortestBridge(self, grid: List[List[int]]) -> int:
+        n = len(grid)
+        visited = set()
+        def dfs(i, j):
+            if i < 0 or j < 0 or i >= n or j >= n or grid[i][j] == 0:
+                return 
+            grid[i][j] = 0
+            visited.add((i, j))
+            for x, y in [(i+1, j), (i, j+1), (i-1, j), (i,j-1)]:
+                dfs(x, y)
+            
+        
+        def bfs():
+            ans = 0
+            q = list(visited)
+            while q:
+                for _ in range(len(q)):
+                    i, j = q.pop(0)
+                    for r, c in [(i+1, j), (i, j+1), (i-1, j), (i,j-1)]:
+                        if r < 0 or c < 0 or r >= n or c >= n or (r, c) in visited:
+                            continue
+                        if grid[r][c] == 1:
+                            return ans
+                        q.append((r,c))
+                        visited.add((r,c))
+                ans += 1
+        for i in range(n):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    dfs(i, j)
+                    return bfs()
+        return 2

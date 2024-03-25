@@ -1,0 +1,17 @@
+class Solution:
+    def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: int) -> int:
+        MOD = ((10 ** 9) + 7)
+        @cache
+        def solve(i, j, count):
+            #print(i, j)
+            if i < 0 or j < 0 or i >= m or j >= n:
+                return 1
+            ans = 0
+            if count < maxMove: 
+                ans += solve(i-1, j, count + 1)
+                ans += solve(i, j+1, count + 1)
+                ans += solve(i, j-1, count + 1)
+                ans += solve(i+1, j, count + 1)
+            print(ans)
+            return ans % MOD
+        return solve(startRow, startColumn, 0) % MOD

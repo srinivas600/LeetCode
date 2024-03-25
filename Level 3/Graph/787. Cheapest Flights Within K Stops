@@ -1,0 +1,30 @@
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        dic={}
+        for sr,ds,pr in flights:
+            if sr not in dic:
+                dic[sr]=[[ds,pr]]
+            else:
+                dic[sr].append([ds,pr])
+        
+        ans=99999999
+
+        q=deque()
+        q.append([src,0])
+        dp = {}
+        while q and k>=-1:
+            for i in range(len(q)):
+                sr,val=q.popleft()
+                if val>=ans:
+                    continue
+                if (sr, val) in dp:
+                    ans = min(ans, dp[(sr, val)])
+                    continue
+                if sr==dst:
+                    ans=min(ans,val)
+                elif sr in dic:
+                    for  ds,pr in dic[sr]:
+                        q.append([ds,val+pr])
+                dp[(sr, val)] = ans
+            k-=1
+        return ans if ans!=99999999 else -1

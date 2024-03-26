@@ -1,0 +1,26 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sufficientSubset(self, root: Optional[TreeNode], limit: int) -> Optional[TreeNode]:
+        if not root:
+            return []
+        def solve(node, total):
+            if not node:
+                return False
+            #print(total, node.val)
+            total += node.val
+            if not node.left and not node.right:
+                return limit <= total
+            left = solve(node.left, total)
+            right = solve(node.right, total)
+            if not left:
+                node.left = None
+            if not right:
+                node.right = None
+            return left or right
+        ans = solve(root, 0)
+        return root if ans else None

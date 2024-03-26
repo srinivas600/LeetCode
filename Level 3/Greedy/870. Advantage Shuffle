@@ -1,0 +1,6 @@
+class Solution:
+    def advantageCount(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        nums1 = deque(sorted(nums1))
+        for val, idx in sorted([-val, i] for i, val in enumerate(nums2)):
+            nums2[idx] = nums1.pop() if -val < nums1[-1] else nums1.popleft()
+        return nums2

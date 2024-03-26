@@ -1,0 +1,20 @@
+class Solution:
+    def longestSubstring(self, s: str, k: int) -> int:
+        n = len(s)
+        @cache
+        def solve(start, end):
+            #print(start, end)
+            if end - start < k:
+                return 0
+            cnt = Counter([])
+            for x in range(start, end):
+                cnt[s[x]] += 1
+            #print(cnt)
+            for i in range(start, end):
+                if cnt[s[i]] < k:
+                    j = i+1
+                    while j < end and cnt[s[j]] < k:
+                        j += 1
+                    return max(solve(start, i), solve(j, end))
+            return end - start
+        return solve(0, n)

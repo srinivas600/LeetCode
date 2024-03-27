@@ -1,0 +1,22 @@
+class Solution:
+    def minSwap(self, nums1: List[int], nums2: List[int]) -> int:
+        opt = []
+        dp = [[-1] * 2 for i in range(len(nums1))]
+        #@lru_cache(None)
+        def solve(i, ans, prev1, prev2):
+            if i == len(nums1):
+                #opt.append(ans)
+                return 0
+            if dp[i][ans] != -1:
+                return dp[i][ans]
+            sol = 10 ** 9
+            if prev1 < nums1[i] and prev2 < nums2[i]:
+                sol =  min(sol, solve(i+1, 0, nums1[i], nums2[i]))
+            if prev1 < nums2[i] and prev2 < nums1[i]:
+                sol = min(sol,1+ solve(i+1, 1, nums2[i], nums1[i]))
+            dp[i][ans] = sol
+            return sol
+        
+        ans = min(solve(1, 0, nums1[0], nums2[0]), 1 + solve(1, 1, nums2[0], nums1[0]))
+        print(dp)
+        return ans

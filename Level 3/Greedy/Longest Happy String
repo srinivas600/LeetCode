@@ -1,0 +1,45 @@
+class Solution:
+    def longestDiverseString(self, a: int, b: int, c: int) -> str:
+        ans = ""
+        prev = ""
+        prev_count = 0
+        n = a + b + c
+        hashmap = {"a" : a, "b" : b, "c" : c}
+        for i in range(n):
+            #print(ans, prev, prev_count, hashmap)
+            mx = "a"
+            for key, value in hashmap.items():
+                if value > hashmap[mx] and value > 0:
+                    mx = key
+            if hashmap[mx] <= 0:
+                continue
+            if prev == mx and prev_count < 2:
+                ans += mx
+                prev_count += 1
+                hashmap[mx] -= 1
+            elif prev != mx:
+                ans += mx
+                prev = mx
+                prev_count = 1
+                hashmap[mx] -= 1
+            elif prev == mx and prev_count >= 2:
+                #print(ans, prev, prev_count, hashmap)
+                if prev == "a":
+                    nd = "b"
+                elif prev == "b":
+                    nd = "c"
+                else:
+                    nd = "a"
+                for i in "abc":
+                    if i != mx and hashmap[i] > 0:
+                        nd = max(nd, i, key = lambda x : hashmap[x])
+                if hashmap[nd] <= 0:
+                    continue
+                if nd != "":
+                    ans += nd
+                    prev = nd
+                    prev_count = 1
+                    hashmap[nd] -= 1
+            else:
+                return ans
+        return ans 

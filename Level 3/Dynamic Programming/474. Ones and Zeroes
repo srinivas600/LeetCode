@@ -1,0 +1,18 @@
+class Solution:
+    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+        dp = {}
+        def solve(i, ones, zeros):
+            if i == len(strs):
+                return 0
+            if (i, ones, zeros) in dp:
+                return dp[(i, ones, zeros)]
+            a = strs[i].count("1")
+            b = strs[i].count("0")
+            notpick = solve(i+1, ones, zeros)
+            pick = 0
+            if a <= ones and b <= zeros:
+                pick = solve(i+1, ones -a, zeros-b) +1
+            dp[(i, ones, zeros)] = max(pick, notpick)
+            return dp[(i, ones, zeros)]
+        return solve(0, n, m)
+        

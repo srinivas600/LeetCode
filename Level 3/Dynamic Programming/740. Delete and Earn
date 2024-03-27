@@ -1,0 +1,23 @@
+class Solution:
+    def deleteAndEarn(self, nums: List[int]) -> int:
+        hashmap = collections.Counter(nums)
+        hashset = list(set(nums))
+        dp = [0] * len(hashset)
+        if len(hashset) == 2:
+            if hashset[0]+1 == hashset[1]:
+                return max(hashmap[hashset[0]]*hashset[0],
+                hashmap[hashset[1]]*hashset[1])
+            return sum(nums)
+        if len(hashset) == 1:
+            return sum(nums)
+        dp[0] = hashset[0]*hashmap[hashset[0]]
+        if hashset[1] == hashset[0]+1:
+            dp[1] = hashset[1]*hashmap[hashset[1]]
+        else:
+            dp[1] = hashset[1]*hashmap[hashset[1]] + dp[0]
+        for i in range(2,len(hashset)):
+            if hashset[i] == hashset[i-1]+1:
+                dp[i] = max(dp[i-2]+(hashmap[hashset[i]]*hashset[i]), dp[i-3]+hashmap[hashset[i]]* hashset[i])
+            else:
+                dp[i] = (max(dp[:i]) + (hashmap[hashset[i]]*hashset[i]))
+        return max(dp)

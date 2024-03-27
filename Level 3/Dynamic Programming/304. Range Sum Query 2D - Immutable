@@ -1,0 +1,21 @@
+class NumMatrix:
+
+    def __init__(self, matrix: List[List[int]]):
+        row, col = len(matrix), len(matrix[0])
+        self.PrefixMat = [[0] * (col + 1) for i in range(row + 1)]
+        for r in range(row):
+            prefix = 0
+            for c in range(col):
+                prefix += matrix[r][c]
+                self.PrefixMat[r + 1][c + 1] = prefix + self.PrefixMat[r][c + 1]
+
+    def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
+        bottom = self.PrefixMat[row2+1][col2+1]
+        left = self.PrefixMat[row2+1][col1]
+        above = self.PrefixMat[row1][col2+1]
+        topleft = self.PrefixMat[row1][col1]
+        return bottom - left - above + topleft
+
+# Your NumMatrix object will be instantiated and called as such:
+# obj = NumMatrix(matrix)
+# param_1 = obj.sumRegion(row1,col1,row2,col2)

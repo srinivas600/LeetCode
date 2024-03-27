@@ -1,0 +1,22 @@
+class Solution:
+    def integerBreak(self, n: int) -> int:
+        def prod(n):
+            ans = 1
+            for i in n:
+                ans *= i
+            return ans
+        
+        def solve(i, ele):
+            #print(ele)
+            if sum(ele) == n:
+                return prod(ele)
+            if sum(ele) > n:
+                return 0
+            ans = 0
+            for j in range(i, n):
+                if sum(ele) + j <= n:
+                    ans = max(ans, solve(j, ele + [j]))
+                else:
+                    break
+            return ans
+        return solve(1, [])

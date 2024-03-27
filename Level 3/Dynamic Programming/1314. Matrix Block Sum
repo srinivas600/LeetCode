@@ -1,0 +1,14 @@
+class Solution:
+    def matrixBlockSum(self, mat: List[List[int]], k: int) -> List[List[int]]:
+        n, m = len(mat), len(mat[0])
+        opt = [[0] * m for i in range(n
+        )]
+        for i in range(n):
+            for j in range(m):
+                total = 0
+                for r in range(max(0, i-k), min(i+k+1, n)):
+                    for c in range(max(0, j-k), min(j+k+1, m)):
+                        total += mat[r][c]
+                opt[i][j] = total
+        #print(opt)
+        return opt

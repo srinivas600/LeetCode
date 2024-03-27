@@ -1,0 +1,13 @@
+class Solution:
+    def maxSumDivThree(self, nums: List[int]) -> int:
+        dp = [[-1] * 3 for _ in range(len(nums))]
+        n = len(nums)
+        def solve(i, curr):
+            if i == n: return 0 if curr == 0 else -10 ** 4
+            if dp[i][curr] != -1:
+                return dp[i][curr]
+            include = nums[i] + solve(i+1, (curr + nums[i])%3)
+            exclude = solve(i+1, curr)
+            dp[i][curr] = max(include, exclude)
+            return dp[i][curr] 
+        return solve(0, 0)

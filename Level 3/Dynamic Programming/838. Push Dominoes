@@ -1,0 +1,31 @@
+class Solution:
+    def pushDominoes(self, dominoes: str) -> str:
+        opt = list(dominoes)
+        n = len(dominoes)
+        right = -1
+        for i in range(n):
+            if dominoes[i] == "L":
+                if right == -1:
+                    for j in range(i)[::-1]:
+                        if opt[j] == ".":
+                            opt[j] = "L"
+                        else:
+                            break
+                else:
+                    j = right +1
+                    k = i - 1
+                    while j < k:
+                        opt[k] = "L"
+                        opt[j] = "R"
+                        k -= 1
+                        j += 1
+                    right = -1
+            elif dominoes[i] == "R":
+                if right != -1:
+                    for j in range(right+1, i):
+                        opt[j] = "R"
+                right = i
+        if right != -1:
+            for j in range(right+1, n):
+                opt[j] = "R"
+        return "".join(opt)

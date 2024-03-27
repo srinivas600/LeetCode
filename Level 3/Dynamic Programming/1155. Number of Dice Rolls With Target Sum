@@ -1,0 +1,15 @@
+class Solution:
+    def numRollsToTarget(self, n: int, k: int, target: int) -> int:
+        MOD = ((10 ** 9) + 7)
+        @cache
+        def solve(i, num):
+            print(i, num)
+            if i >= n:
+                if num == target:
+                    return 1
+                return 0
+            ans = 0
+            for j in range(1, k+1):
+                ans += solve(i+1, num + j)
+            return ans % MOD
+        return solve(0, 0) % MOD

@@ -1,0 +1,13 @@
+class Solution:
+    def longestZigZag(self, root: Optional[TreeNode]) -> int:
+        mx = 0
+        def dfs(node):
+            nonlocal mx
+            if not node:
+                return (0, 0)
+            left = dfs(node.left)[0] 
+            right = dfs(node.right)[1]
+            mx = max(mx, left, right)
+            return (right + 1, left + 1)
+        dfs(root)
+        return mx

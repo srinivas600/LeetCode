@@ -1,0 +1,18 @@
+class Solution:
+    def knightProbability(self, n: int, k: int, row: int, column: int) -> float:
+        dire = [(2, 1), (1, 2), (-1, 2), (-1, -2), (1, -2), 
+        (-2, -1), (-2, 1), (2, -1)]
+        @cache
+        def solve(i, j, count):
+            if count == 0:
+                return 1
+            ans = 0
+            opt = 0
+            for r, c in dire:
+                x = r + i
+                y = j + c
+                if x in range(n) and y in range(n):
+                    ans += solve(x, y, count-1)
+            return ans / 8
+        return solve(row, column, k)
+                

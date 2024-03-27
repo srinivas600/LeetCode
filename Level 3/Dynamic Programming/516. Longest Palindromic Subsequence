@@ -1,0 +1,11 @@
+class Solution:
+  def longestPalindromeSubseq(self, s: str) -> int:
+    d = defaultdict(int)
+    @cache
+    def f(s):
+      if s not in d:
+        for c in set(s):
+          i, j = s.find(c), s.rfind(c)
+          d[s] = max(d[s], 1 if i==j else 2+f(s[i+1:j]))
+      return d[s]
+    return f(s)

@@ -1,0 +1,23 @@
+class Solution:
+    def nthUglyNumber(self, n: int, a: int, b: int, c: int) -> int:
+        def GCD(x, y):
+            if x > y:
+                return GCD(y, x)
+            if x == 0:
+                return y
+            return GCD(x, y % x)
+        
+        def LCM(x, y):
+            return (x * y) // GCD(x, y)
+
+        left = 0
+        right = max(a, b, c) * n
+        ans = 0
+        while left < right:
+            mid = (left + right) // 2
+            ans = (mid // a) + (mid // b) + (mid // c) - (mid // LCM(a, b)) - (mid // LCM(b, c)) - (mid // LCM(a, c)) + (mid // LCM(a, LCM(b, c)))
+            if ans < n:
+                left = mid + 1
+            else:
+                right = mid
+        return left

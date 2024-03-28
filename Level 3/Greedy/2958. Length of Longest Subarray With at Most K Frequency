@@ -1,0 +1,12 @@
+class Solution:
+    def maxSubarrayLength(self, nums: List[int], k: int) -> int:
+        frequency = Counter()
+        left = 0
+        ans = 0
+        for r in range(len(nums)):
+            frequency[nums[r]] += 1
+            while frequency[nums[r]] > k and left <= r:
+                frequency[nums[left]] -= 1
+                left += 1
+            ans = max(ans, r - left + 1)
+        return ans

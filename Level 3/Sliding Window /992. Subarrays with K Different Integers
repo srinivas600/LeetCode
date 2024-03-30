@@ -1,0 +1,25 @@
+class Solution:
+    def subarraysWithKDistinct(self, nums: List[int], k: int) -> int:
+        if len(set(nums)) < k:
+            return 0
+        frequency = Counter([])
+        left = 0
+        ans = 0
+        for r in range(len(nums)):
+            frequency[nums[r]] += 1
+            while len(frequency) > k:
+                frequency[nums[left]] -= 1
+                if frequency[nums[left]] == 0:
+                    del frequency[nums[left]]
+                left += 1
+            partal = left
+            #print( "Frequency", frequency, len(frequency))
+            dummy = frequency.copy()
+            while len(dummy) == k and partal <= r:
+                dummy[nums[partal]] -= 1
+                if dummy[nums[partal]] == 0:
+                    del dummy[nums[partal]]
+                partal += 1
+                #print(dummy)
+                ans += 1
+        return ans 

@@ -1,0 +1,14 @@
+class Solution:
+    def minSteps(self, n: int) -> int:
+        if n <= 1:
+            return 0
+        @cache
+        def solve(cpy, pst):
+            if pst >= n:
+                return 0 if pst == n else 10 ** 9
+            ans = 10 ** 9
+            if pst * 2 < n:
+                ans = min(ans, solve(pst, pst * 2) + 2)
+            ans = min(ans, solve(cpy, pst + cpy) + 1)
+            return ans
+        return solve(1, 1) + 1

@@ -1,0 +1,31 @@
+class Solution:
+    def minDominoRotations(self, tops: List[int], bottoms: List[int]) -> int:
+        def solve(top, bottom):
+            res = 0
+            #print(top, bottom)
+            for i in range(1, len(top)):
+                if top[i-1] == top[i]:
+                    continue
+                elif top[i-1] == bottom[i]:
+                    top[i], bottom[i] = bottom[i], top[i]
+                    res += 1
+                else:
+                    return -1
+            return res
+        ans = []
+        ans.append(solve(tops[:], bottoms[:]))
+        ans.append(solve(bottoms[:], tops[:]))
+        tops[0], bottoms[0] = bottoms[0], tops[0]
+        a = solve(tops[:], bottoms[:])
+        if a != -1:
+            ans.append(a + 1)
+        b = solve(bottoms[:], tops[:])
+        if b != -1:
+            ans.append(b + 1)
+        opt = 10 ** 9
+        #print(ans)
+        for i in ans:
+            if i == -1:
+                continue
+            opt = min(i, opt)
+        return opt if opt != 10 ** 9 else -1

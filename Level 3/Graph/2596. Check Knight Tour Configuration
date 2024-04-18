@@ -1,0 +1,22 @@
+class Solution:
+    def checkValidGrid(self, grid: List[List[int]]) -> bool:
+        n = len(grid)
+        def solve(i, j, num):
+            if num == n * n:
+                return True
+            if i < 0 or i >= n or j < 0 or j >= n or grid[i][j] != num or visited[i][j]:
+                return False
+            visited[i][j] = True
+            ans = False
+            ans |= solve(i+1, j+2, num + 1)
+            ans |= solve(i+1, j-2, num + 1)
+            ans |= solve(i-1, j+2, num + 1)
+            ans |= solve(i-1, j-2, num + 1)
+            ans |= solve(i+2, j+1, num + 1)
+            ans |= solve(i+2, j-1, num + 1)
+            ans |= solve(i-2, j+1, num + 1)
+            ans |= solve(i-2, j-1, num + 1)
+            visited[i][j] = False
+            return ans
+        visited = [[False] * n for i in range(n)]
+        return solve(0, 0, 0)

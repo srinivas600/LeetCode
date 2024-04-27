@@ -1,0 +1,19 @@
+class Solution:
+    def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+        graph = defaultdict(list)
+        for i, j in edges:
+            graph[i].append(j)
+            graph[j].append(i)
+        # print(graph)
+        visited =set()
+        def dfs(i):
+            if i == destination:
+                return True
+            if i in visited:
+                return False
+            visited.add(i)
+            for x in graph[i]:
+                if dfs(x):
+                    return True
+            return False
+        return dfs(source)

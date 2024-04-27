@@ -1,0 +1,17 @@
+class Solution:
+    def findRotateSteps(self, ring: str, key: str) -> int:
+        n, m = len(ring), len(key)
+        @cache
+        def solve(r, k):
+            #print(r, k)
+            if k == m:
+                return 0
+            ans = 10 ** 9
+            for i in range(n):
+                if ring[i] == key[k]:
+                    if abs(i - r) < n - abs(i - r):
+                        ans = min(ans, solve(i, k+1) + abs(i - r) + 1)
+                    else:
+                        ans = min(ans, solve(i, k+1) + n - abs(i - r) + 1)
+            return ans
+        return solve(0, 0)

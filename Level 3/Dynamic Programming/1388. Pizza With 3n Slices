@@ -1,0 +1,13 @@
+class Solution:
+    def maxSizeSlices(self, slices: List[int]) -> int:
+        @lru_cache(None)
+        def solve(i, j, k, c):
+            if k == 0:
+                return 0
+            if j - i +1  < 2 * k -1:
+                return - 10 ** 9
+            ans = - 10 ** 9
+            ans = max(ans, solve(i + c, j-2, k-1, 0) + slices[j])
+            ans = max(ans, solve(i, j-1, k, 0))
+            return ans
+        return solve(0, len(slices)-1, len(slices) // 3, 1)

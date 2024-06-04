@@ -1,0 +1,16 @@
+class Solution:
+    def longestPalindrome(self, s: str) -> int:
+        ans = 0
+        a = Counter(s)
+        res = sorted([i for i in a.values()], reverse = True)
+        flag = 1
+        #print(res, a)
+        for i in res:
+            if i & 1 == 0:
+                ans += i
+            elif flag:
+                ans += i
+                flag = 0
+            else:
+                ans += i - 1
+        return ans

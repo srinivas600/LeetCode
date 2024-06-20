@@ -1,0 +1,20 @@
+class Solution:
+    def maxDistance(self, position: List[int], m: int) -> int:
+        position.sort()
+        def solve(x):
+            prev = -10 ** 9
+            magnets = 0
+            for i in position:
+                if  i - prev >= x:
+                    prev = i
+                    magnets += 1
+            return magnets >= m
+
+        left, right = 0, max(position)
+        while left <= right:
+            mid = (left + right) // 2
+            if not solve(mid):
+                right = mid - 1
+            else:
+                left = mid + 1
+        return right if solve(right) else left
